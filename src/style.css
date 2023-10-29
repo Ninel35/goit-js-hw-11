@@ -30,7 +30,3 @@ img {
   align-items: center;
   gap: 5px;
 }
-.load-more {
-  display: flex;
-  justify-content: center;
-}
