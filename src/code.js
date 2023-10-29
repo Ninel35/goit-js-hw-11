@@ -2,6 +2,7 @@ import axios from "axios";
 import Notiflix from "notiflix";
 
 const BASE_URL = "https://pixabay.com/api/";
+let page = 0;
 
 const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
@@ -10,15 +11,17 @@ const loadBtn = document.querySelector(".load-more");
 form.addEventListener("submit", handlerQuery);
 loadBtn.addEventListener("click", handlerLoadMore);
 
-function handlerQuery(evt) {
+
+async function handlerQuery(evt) {
     evt.preventDefault();
 
-    fetchBack()
-        .then(function (response) {
-        
+    const response = await fetchBack()
+        try{
+          page = 0;
             console.log(response);
         if (response.data.totalHits === 0) {
-            gallery.innerHTML = "";
+          gallery.innerHTML = "";
+            loadBtn.classList.add("load-hidden")
             Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
         } else {
             gallery.innerHTML = albumMurkup(response.data.hits); 
@@ -28,13 +31,9 @@ function handlerQuery(evt) {
                    loadBtn.classList.remove("load-hidden")
             } 
 
-  })
-  .catch(function (error) {
+  } catch(error) {
     console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
+  }
 
 }
 
@@ -62,36 +61,29 @@ function albumMurkup(data) {
 </div>`).join("");    
 }
 
-let page = 12;
 
-function handlerLoadMore(evt) {
+
+async function handlerLoadMore(evt) {
     page += 1;
     
-    fetchBack(page)
-        .then(function (response) {
+   const response = await fetchBack(page)
+  try { 
             console.log(response);
-        if (response.data.totalHits === 0) {
-            gallery.innerHTML = "";
-            Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-        } else {
+       
             gallery.insertAdjacentHTML("beforeend", albumMurkup(response.data.hits)); 
-            Notiflix.Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
-            }
             
             if (page >= response.data.totalHits/40) {
                 console.log("word");
-                loadBtn.classList.add("load-hidden");
+              loadBtn.classList.add("load-hidden");
+                    Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
             }
-            
-  })
-  .catch(function (error) {
+             }
+  catch (error) {
     console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
-    
+  }    
 }
+
+
 function fetchBack(page = 1) {
     return axios.get(BASE_URL, {
         params: {

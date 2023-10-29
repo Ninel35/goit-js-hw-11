@@ -1,3 +1,36 @@
 .load-hidden {
   display: none;
 }
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.photo-card {
+  margin: auto;
+  width: calc((100%-40px) / 4);
+}
+.search-form {
+  margin-bottom: 15px;
+}
+img {
+  width: 350px;
+  height: 300px;
+  object-fit: cover;
+}
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.load-more {
+  display: flex;
+  justify-content: center;
+}
