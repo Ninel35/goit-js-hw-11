@@ -2,7 +2,7 @@ import axios from "axios";
 import Notiflix from "notiflix";
 
 const BASE_URL = "https://pixabay.com/api/";
-let page = 0;
+let page = 1;
 
 const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
@@ -17,7 +17,7 @@ async function handlerQuery(evt) {
 
     const response = await fetchBack()
         try{
-          page = 0;
+          page = 1;
             console.log(response);
         if (response.data.totalHits === 0) {
           gallery.innerHTML = "";
