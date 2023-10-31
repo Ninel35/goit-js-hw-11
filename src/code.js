@@ -29,7 +29,9 @@ async function handlerQuery(evt) {
             }
             if (page < response.data.totalHits/40) {
                    loadBtn.classList.remove("load-hidden")
-            } 
+            } else {
+              loadBtn.classList.add("load-hidden")
+            }
 
   } catch(error) {
     console.log(error);
